@@ -40,6 +40,16 @@ INSTALLED_APPS = (`
 ## Settings
 
 ```
-settings.DJCMS_BLOG_ID = 1 # Defines the Main blog id
-settings.DJCMS_BLOG_ENTRIES_NUMBER # Define the number of entries to display in the widget
-``
+DJCMS_BLOG_ID = 1 # Defines the Main blog id
+DJCMS_BLOG_ENTRIES_NUMBER # Define the number of entries to display in the widget
+```
+
+## Contributing
+Install dev dependencies
+```
+pip install -r requirements_dev.txt
+```
+Run tests
+```
+pytest . --cov=. --cov-report=term-missing
+```
