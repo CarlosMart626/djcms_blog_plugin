@@ -5,7 +5,7 @@ from cms.plugin_rendering import ContentRenderer
 from django.contrib.auth.models import User
 from django.test import TestCase
 from django.test.client import RequestFactory
-from djcms_blog.models import Blog, Post, PostTitle, Tag, Author
+from djcms_blog.models import Blog, BlogTitle, Post, PostTitle, Tag, Author
 
 from djcms_blog_plugin.cms_plugins import SimpleBlogEntriesPluginCMS
 
@@ -35,6 +35,12 @@ class SimpleBlogEntriesPluginTestCase(TestCase):
             cover="cover.jpg",
             block_header="",
             block_footer=""
+        )
+        self.blog_title = BlogTitle.objects.create(
+            blog=self.blog,
+            language="en",
+            title="My blog",
+            description="My blog description",
         )
         self.tag = Tag.objects.create(
             blog=self.blog,
@@ -90,3 +96,20 @@ class SimpleBlogEntriesPluginTestCase(TestCase):
         self.assertIn("My post 2", html)
         self.assertIn("My post 2 description", html)
         self.assertIn("carlosmart", html)
+        self.assertIn("My blog", html)
+
+        model_instance = add_plugin(
+            placeholder,
+            SimpleBlogEntriesPluginCMS,
+            'en',
+        )
+        model_instance.custom_blog_title = "This is my new blog"
+        model_instance.save()
+        renderer = ContentRenderer(request=RequestFactory())
+        html = renderer.render_plugin(model_instance, {})
+        self.assertIn("My post", html)
+        self.assertIn("My post description", html)
+        self.assertIn("My post 2", html)
+        self.assertIn("My post 2 description", html)
+        self.assertIn("carlosmart", html)
+        self.assertIn("This is my new blog", html)

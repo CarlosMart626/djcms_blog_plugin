@@ -1,11 +1,12 @@
 {% load humanize %}
 {% load cms_tags %}
 <div class="ui container blog-content" id="blog-content">
+    <h2 class="blog-title">{{ instance.title }}</h2>
     {% for post in instance.get_posts %}
     <article class="post">
-        <h2 class="post-title">
+        <h3 class="post-title">
             <a href="/{{post.blog.slug}}/{{post.slug}}">{{post.title}}</a>
-        </h2>
+        </h3>
         <p class="post-description">{{post.description}}</p>
         <div class="post-meta">
             <a class="post-meta__user" href="/author/{{post.author.slug}}">

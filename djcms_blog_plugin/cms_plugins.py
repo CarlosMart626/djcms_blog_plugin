@@ -22,7 +22,9 @@ class SimpleBlogEntriesPluginCMS(CMSPluginBase):
         self.language = translation.get_language()
         context = super(SimpleBlogEntriesPluginCMS, self).render(context, instance, placeholder)
         blog = Blog.objects.get(pk=settings.DJCMS_BLOG_ID)
+        blog_lang_object = blog.get_language_object(self.language)
         instance.get_posts = list(blog.get_posts())[:settings.DJCMS_BLOG_ENTRIES_NUMBER]
+        instance.title = instance.custom_blog_title or blog_lang_object.title
         for post in instance.get_posts:
             post_object = post.language_object(self.language)
             post.title = post_object.title
