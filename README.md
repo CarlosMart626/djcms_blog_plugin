@@ -52,4 +52,7 @@ pip install -r requirements_dev.txt
 Run tests
 ```
 pytest . --cov=. --cov-report=term-missing
+
+# virtualenv
+python -m pytest . --cov=. --cov-report=term-missing
 ```
